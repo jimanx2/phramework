@@ -11,6 +11,7 @@
         "icanboogie/inflector": "~1.3"
     },
     "autoload": {
-		"classmap": [ "lib/" ]
+		"classmap": [ "lib/" ],
+        "App\\": "../../app/"
 	}
 }
