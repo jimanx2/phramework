@@ -1,0 +1,13 @@
+{
+    "name": "jimanx2/phramework",
+    "authors": [
+        {
+            "name": "Haziman Hashim",
+            "email": "haziman@abh.my"
+        }
+    ],
+    "require": {
+	"twig/twig": "~1.0",
+        "icanboogie/inflector": "~1.3",
+    }
+}
