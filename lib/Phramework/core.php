@@ -34,7 +34,7 @@ class Core {
     $action = $route_info["action"];
     $this->request->params["controller"] = $controller;
     $this->request->params["action"] = $action;
-    $controllerKlass = "\$controller";
+    $controllerKlass = "\\$controller";
     $controller = new $controllerKlass($this);
     $controller->$action();
     $this->response->render();
