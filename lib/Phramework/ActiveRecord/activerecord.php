@@ -7,6 +7,7 @@ class ActiveRecord {
   var $connection;
   
   public static function __callStatic($name, $arguments){
+    
     $allowed_names = ["find_by"];
     
     if(!in_array($name,$allowed_names)){ 

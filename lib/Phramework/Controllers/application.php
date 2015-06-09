@@ -8,9 +8,6 @@ class Application {
   
   public function __construct($context = NULL){
     $this->context = $context;
-    $GLOBALS['q'] = $context->request->params;
-    $GLOBALS['request'] = $context->request;
-    $GLOBALS['response'] = $context->response;
   }
   
   protected function render($opts){

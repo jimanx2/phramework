@@ -5,6 +5,7 @@ use Phramework\Utils\Defaults;
 use Phramework\Request;
 use Phramework\Response;
 use Phramework\Router;
+use Phramework\Controllers\ControllerWrapper;
 use Phramework\Initializers\ErrorHandler;
 
 class Core {
@@ -30,11 +31,15 @@ class Core {
     $action = $route_info["action"];
     $this->request->params["controller"] = $controller;
     $this->request->params["action"] = $action;
-    
     return ["controller" => "\\$controller", "action" => $action];
   }
   
   public function run(){
+    $env = $this->getEnvironment();
+    $controller = $env['controller'];
+    $action = $env['action'];
+    $controller = new ControllerWrapper($controller, $this);
+    $controller->$action();
     $this->response->render();
   }
   

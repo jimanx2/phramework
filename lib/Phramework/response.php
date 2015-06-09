@@ -5,18 +5,18 @@ use \Twig_Loader_Filesystem;
 use \Twig_Environment;
 
 class Response {
-  var $headers, $context, $view_path, $cache_path, $layout;
+  var $headers, $context, $view_path, $cache_path, $layout, $vars;
   
   public function __construct($context){
     $context->response = $this;
     $this->context = $context;
     $this->headers = [];
+    $this->vars = ["a" => 1];
     $this->cache_path = "";
     $this->layout = "application";
   }
   
   public function render($opts = NULL){
-    global $var;
     
     foreach($this->headers as $header=>$value){
       header ("$header: $value");
@@ -28,9 +28,6 @@ class Response {
     if(isset($opts["layout"]))
       $this->layout = $opts["layout"];
     
-    if(!isset($var))
-      $var = [];
-    
     $loader = new Twig_Loader_Filesystem($this->context->defaults->view_path);
     $twig = new Twig_Environment($loader, array(
         'cache' => $this->cache_path,
@@ -40,7 +37,7 @@ class Response {
       "layouts/$this->layout.php", 
       array(
         "action" => 'pages/'.$this->context->request->params['action'].'.php', 
-        "variables" => $var
+        "variables" => $this->vars
       )
     );
   }

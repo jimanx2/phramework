@@ -5,11 +5,13 @@ class Router {
   var $__routes;
   var $context;
   public function __construct($context){
-    global $routes, $__PARAMS;
+    global $routes;
+    
+    require $context->defaults->root."/config/routes.php";
+    
     $this->__routes = $routes;
     $context->router = $this;
     $this->context = $context;
-    $__PARAMS = [];
   }
   
   public function parse($path){
@@ -22,30 +24,16 @@ class Router {
     
     $dynamic = [];
     foreach($this->__routes as $def => $route){
-      $found = preg_replace_callback("/(\:[^\/]+)/", function($matches){
-        global $__file, $__PARAMS;
-        array_shift($matches);
-        foreach($matches as $i=>$match){
-          $parts = explode("/", $__file);
-          if(sizeof($parts) > $i+2){
-            $this->context->request->params = array_merge(
-              $this->context->request->params,
-              array(
-                substr($match,1) => $parts[$i + 2]
-              )
-            );
-          }
-          $matches[$i] = '([^\/]+)';
-        }
-        return implode("/", $matches);
-      }, $def);
+      $re = "/(\\:[^\\W]+)/"; 
+      $found = preg_replace_callback($re, function($matches){
+        return '([^\/]+)';                          
+      }, $def);                                     
       if( $found != $def ){
         array_push($dynamic,["rgx" => $found, "pattern" => $def]);
       }
     }
     
-    $matched_routes = array_filter($dynamic, function($def){
-      global $__file;
+    $matched_routes = array_filter($dynamic, function($def) use ($__file){
       $regex = str_replace("/", "\/", $def["rgx"]);
       $regex = str_replace("\\\\", "\\", $regex);
       $regex = "/${regex}/";
@@ -58,7 +46,7 @@ class Router {
     } else if( !isset($this->__routes[$__file]) ) {
       throw new \Exception("Unknown route $__file.");
     }
-      
+    
     list($controller, $action) = explode("#", $this->__routes[$__file]);
     $controller = "App\\Controllers\\".ucfirst($controller);
     
