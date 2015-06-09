@@ -26,7 +26,7 @@ class Router {
     foreach($this->__routes as $def => $route){
       $re = "/(\\:[^\\W]+)/"; 
       $found = preg_replace_callback($re, function($matches){
-        return '([^\/]+)';                          
+        return '[^\/]+';                          
       }, $def);                                     
       if( $found != $def ){
         array_push($dynamic,["rgx" => $found, "pattern" => $def]);
