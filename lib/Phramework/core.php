@@ -11,9 +11,7 @@ class Core {
   var $config, $router, $response, $request, $defaults;
   
   public function __construct(){
-    global $routes, $__loadtime;
-    
-    $__loadtime = microtime();
+    global $routes;
     new Defaults($this);
     
     # load defined routes
@@ -26,20 +24,18 @@ class Core {
     new Response($this);
   }
   
-  public function run(){
-    global $__loadtime;
-    
+  public function getEnvironment(){
     $route_info = $this->router->parse($_SERVER['PHP_SELF']);
     $controller = $route_info["controller"];
     $action = $route_info["action"];
     $this->request->params["controller"] = $controller;
     $this->request->params["action"] = $action;
-    $controller = "\\$controller";
-    $controller = new $controller($this);
-    $controller->$action();
-    $this->response->render();
     
-    $__loadtime = microtime() - $__loadtime;
+    return ["controller" => "\\$controller", "action" => $action];
+  }
+  
+  public function run(){
+    $this->response->render();
   }
   
 }
