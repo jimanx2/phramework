@@ -11,7 +11,7 @@ class Response {
     $context->response = $this;
     $this->context = $context;
     $this->headers = [];
-    $this->vars = ["a" => 1];
+    $this->vars = [];
     $this->cache_path = "";
     $this->layout = "application";
   }

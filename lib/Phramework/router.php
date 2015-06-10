@@ -24,9 +24,9 @@ class Router {
     
     $dynamic = [];
     foreach($this->__routes as $def => $route){
-      $re = "/(\\:[^\\W]+)/"; 
+      $re = "/(\\:[^\\W]+)/";
       $found = preg_replace_callback($re, function($matches){
-        return '[^\/]+';                          
+        return '([^\/]+)';
       }, $def);                                     
       if( $found != $def ){
         array_push($dynamic,["rgx" => $found, "pattern" => $def]);
@@ -34,7 +34,8 @@ class Router {
     }
     
     $matched_routes = array_filter($dynamic, function($def) use ($__file){
-      $regex = str_replace("/", "\/", $def["rgx"]);
+      $regex = $def["rgx"];
+      $regex = str_replace("/", "\/", $regex);
       $regex = str_replace("\\\\", "\\", $regex);
       $regex = "/${regex}/";
       
