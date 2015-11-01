@@ -35,7 +35,7 @@ Composer plugin for Phramework by Jimanx2
 
 3 . composer run-script phramework init
 
-4 . ./phlay
+4 . ./phlay (you may need to `chmod +x` this file first)
 
 # Limitation
 Unix only, bye-bye windows. :p
