@@ -1,8 +1,10 @@
 <?php namespace Phramework;
 
+use Composer\Script\Event;
+
 class InstallManager {
-  var $composer;
+
   public static function runScript(Event $e){
-  
+    die("here");
   }
 }

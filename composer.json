@@ -7,8 +7,12 @@
         }
     ],
     "scripts": {
-        "post-install-cmd": "PhrameWork\\InstallManager::runScript",
-        "post-update-cmd": "PhrameWork\\InstallManager::runScript"
+        "post-install-cmd": [
+          "PhrameWork\\InstallManager::runScript"
+        ],
+        "post-update-cmd": [
+          "PhrameWork\\InstallManager::runScript"
+        ]
     },
     "require": {
         "twig/twig": "~1.0",
