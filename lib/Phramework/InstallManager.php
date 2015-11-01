@@ -10,9 +10,9 @@ class InstallManager {
     if ($zip->open(realpath($vendorPath.'/jimanx2/phramework/resources/phramework-skeleton.zip')) === TRUE) {
         $zip->extractTo(realpath($vendorPath.'/../'));
         $zip->close();
-        echo 'ok';
+        echo 'Done';
     } else {
-        echo 'failed';
+        echo 'Extraction of Phramework App Skeleton has failed';
     }
   }
   
