@@ -1,7 +1,7 @@
 <?php namespace Phramework\Controllers;
 
 class ControllerWrapper {
-  private $controller, $klass, $context, $mod;
+  private $controller, $klass, $context;
   
   function __construct($controller, &$context) { 
     $this->klass = $controller;
@@ -21,11 +21,11 @@ class ControllerWrapper {
     array_pop($body); array_shift($body);
     $body = implode("\n", $body);
     
-    // create models
-    $this->mod['User'] = new \App\Models\User();
+    // TODO: create models
+    // $this->mod['User'] = new \App\Models\User();
     
     // call the action
-    $func = create_function('&$params, &$var, &$request, &$response, &$mod', $body);
+    $func = create_function('&$params, &$var, &$request, &$response', $body);
     
     return $func(
       $this->context->request->params,
