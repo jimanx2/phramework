@@ -25,7 +25,7 @@ class Router {
     $__ext = pathinfo($path, PATHINFO_EXTENSION);
     $__file = pathinfo($path, PATHINFO_FILENAME);
     $__dir = pathinfo($path, PATHINFO_DIRNAME);
-    $__file = ( $__dir == "/" ? "/" : $__dir . "/" ) . $__file;
+    $__file = ( $__dir == "/" || $__dir == "\\" ? "/" : $__dir . "/" ) . $__file;
     
     $dynamic = [];
     $indexes = [];
