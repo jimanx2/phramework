@@ -7,7 +7,6 @@
         }
     ],
     "require": {
-        "vendor/Phramework": "dev-master",
         "twig/twig": "~1.0",
         "icanboogie/inflector": "~1.3"
     },
