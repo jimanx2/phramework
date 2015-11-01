@@ -2,7 +2,7 @@
 
 class Router {
   
-  var $__routes;
+  var $__routes, $params;
   var $context;
   public function __construct($context){
     global $routes;
@@ -10,8 +10,13 @@ class Router {
     require $context->defaults->root."/config/routes.php";
     
     $this->__routes = $routes;
+    $this->params = [];
     $context->router = $this;
     $this->context = $context;
+  }
+  
+  public function getParams(){
+    return $this->params;
   }
   
   public function parse($path){
@@ -23,13 +28,15 @@ class Router {
     $__file = ( $__dir == "/" ? "/" : $__dir . "/" ) . $__file;
     
     $dynamic = [];
+    $indexes = [];
     foreach($this->__routes as $def => $route){
-      $re = "/(\\:[^\\W]+)/";
-      $found = preg_replace_callback($re, function($matches){
+      $re = "/(\\:([^\\W]+))/";
+      $found = preg_replace_callback($re, function($matches) use (&$indexes){
+        array_push($indexes, $matches[2]);
         return '([^\/]+)';
-      }, $def);                                     
+      }, $def);  
       if( $found != $def ){
-        array_push($dynamic,["rgx" => $found, "pattern" => $def]);
+        array_push($dynamic,["rgx" => $found, "pattern" => $def, "idx" => $indexes]);
       }
     }
     
@@ -39,7 +46,11 @@ class Router {
       $regex = str_replace("\\\\", "\\", $regex);
       $regex = "/${regex}/";
       
-      return preg_match($regex, $__file);
+      preg_match($regex, $__file, $matches);
+      foreach($def['idx'] as $i => $v){
+        $this->params[$v] = $matches[$i+1];
+      }
+      return $matches;
     });
     
     if( !empty($matched_routes) ){

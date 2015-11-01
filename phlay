@@ -1,0 +1,42 @@
+#!/bin/sh
+
+ERR()
+{
+  echo "[ERROR] $1"
+}
+INFO()
+{
+  echo "[INFO] $1"
+}
+
+ROUTER=${ROUTER:-stackup.ph}
+
+# find router script first
+if ! [ -f $ROUTER ]; then
+  ERR "Couldn't find router script: $ROUTER."
+  ERR "Please verify that you have this file in `pwd`."
+  INFO "Exiting"
+  exit
+fi
+
+# find INI then
+INI=${INI:-config/server.ini}
+if ! [ -f $ROUTER ]; then
+  ERR "Couldn't find server INI: $INI."
+  ERR "Please verify that you have this file in `pwd`."
+  INFO "Exiting"
+  exit
+fi
+
+VER=`php --version`
+if ! [ $? == 0 ]; then
+  ERR "No PHP executable found in PATH!"
+  INFO "Exiting"
+  exit
+fi
+
+APPDIR=${APPDIR:-./public}
+BINDING=${BINDING:-localhost}
+PORT=${PORT:-8080}
+INFO "Starting Phramework..."
+php -S ${BINDING}:${PORT} -c $INI -t $APPDIR $ROUTER

@@ -12,7 +12,7 @@ class Response {
     $this->context = $context;
     $this->headers = [];
     $this->vars = [];
-    $this->cache_path = "";
+    $this->cache_path = "app/cache";
     $this->layout = "application";
   }
   

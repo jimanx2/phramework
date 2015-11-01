@@ -27,6 +27,8 @@ class Core {
   
   public function getEnvironment(){
     $route_info = $this->router->parse($_SERVER['PHP_SELF']);
+    $this->request->params = 
+      array_merge($this->request->params, $this->router->params);
     $controller = $route_info["controller"];
     $action = $route_info["action"];
     $this->request->params["controller"] = $controller;
