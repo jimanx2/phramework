@@ -12,7 +12,7 @@ class Response {
     $this->context = $context;
     $this->headers = [];
     $this->vars = [];
-    $this->cache_path = "app/cache";
+    $this->cache_path = "app".DIRECTORY_SEPARATOR."cache";
     $this->layout = "application";
   }
   
@@ -36,7 +36,10 @@ class Response {
     echo $twig->render(
       "layouts/$this->layout.php", 
       array(
-        "action" => 'pages/'.$this->context->request->params['action'].'.php', 
+        "action" => 
+          str_replace("App\\Controllers\\", "", $this->context->request->params['controller']) . 
+          DIRECTORY_SEPARATOR . 
+          $this->context->request->params['action'].'.php', 
         "variables" => $this->vars
       )
     );
