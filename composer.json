@@ -6,6 +6,11 @@
             "email": "haziman@abh.my"
         }
     ],
+    "scripts": {
+        "post-install-cmd": [
+            "Phramework\\InstallManager::postInstallCmd"
+        ]
+    },
     "require": {
         "vendor/Phramework": "dev-master",
         "twig/twig": "~1.0",
